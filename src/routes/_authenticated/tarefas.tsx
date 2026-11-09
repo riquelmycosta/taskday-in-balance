@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
 import {
   Dialog,
   DialogContent,
@@ -126,6 +127,7 @@ function Tarefas() {
 
   const all = tasks.data ?? [];
   const pendentes = all.filter((t) => t.status !== "concluida").length;
+  const percent = all.length ? Math.round(((all.length - pendentes) / all.length) * 100) : 0;
   const termo = search.trim().toLowerCase();
   const list = all.filter(
     (t) =>
@@ -158,6 +160,14 @@ function Tarefas() {
             </div>
           ))}
         </div>
+
+        <section className="mt-3 rounded-xl border bg-card p-4" aria-label="Progresso">
+          <div className="flex items-baseline justify-between">
+            <p className="text-sm font-medium text-card-foreground">Tarefas concluídas</p>
+            <p className="font-display text-2xl text-primary">{percent}%</p>
+          </div>
+          <Progress value={percent} className="mt-3 h-2" />
+        </section>
 
         <Button
           className="mt-8 h-11 w-full"
