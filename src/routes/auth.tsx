@@ -39,7 +39,7 @@ function AuthPage() {
     if (mode === "entrar") {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       setLoading(false);
-      if (error) return toast.error("E-mail ou senha incorretos.");
+      if (error) { toast.error("E-mail ou senha incorretos."); return; }
       navigate({ to: "/tarefas", replace: true });
     } else {
       const { data, error } = await supabase.auth.signUp({
@@ -48,7 +48,7 @@ function AuthPage() {
         options: { emailRedirectTo: window.location.origin, data: { name } },
       });
       setLoading(false);
-      if (error) return toast.error(error.message);
+      if (error) { toast.error(error.message); return; }
       if (data.session) navigate({ to: "/tarefas", replace: true });
       else setSent(true);
     }
