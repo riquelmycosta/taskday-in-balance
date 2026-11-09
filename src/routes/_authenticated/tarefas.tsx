@@ -142,12 +142,22 @@ function Tarefas() {
             <h1 className="mt-4 font-display text-3xl text-foreground sm:text-4xl">
               Olá{profile.data ? `, ${profile.data}` : ""}!
             </h1>
-            <p className="mt-1 text-muted-foreground">
-              {pendentes === 0 ? "Nenhuma tarefa pendente." : `${pendentes} tarefa(s) pendente(s).`}
-            </p>
           </div>
           <Button variant="outline" size="sm" onClick={sair}>Sair</Button>
         </header>
+
+        <div className="mt-6 grid grid-cols-3 gap-3">
+          {[
+            { label: "Total", value: all.length, cls: "bg-card text-card-foreground" },
+            { label: "Pendentes", value: pendentes, cls: "bg-accent text-accent-foreground" },
+            { label: "Concluídas", value: all.length - pendentes, cls: "bg-hero text-hero-foreground" },
+          ].map((s) => (
+            <div key={s.label} className={`rounded-xl border p-4 ${s.cls}`}>
+              <p className="font-display text-3xl">{s.value}</p>
+              <p className="text-sm opacity-80">{s.label}</p>
+            </div>
+          ))}
+        </div>
 
         <Button
           className="mt-8 h-11 w-full"
