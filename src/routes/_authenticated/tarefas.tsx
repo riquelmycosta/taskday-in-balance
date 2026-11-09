@@ -141,7 +141,7 @@ function Tarefas() {
         <header className="flex items-start justify-between gap-4">
           <div>
             <p className="font-display text-xl text-primary">Feito.</p>
-            <h1 className="mt-4 font-display text-3xl text-foreground sm:text-4xl">
+            <h1 className="mt-4 break-words font-display text-3xl text-foreground sm:text-4xl">
               Olá{profile.data ? `, ${profile.data}` : ""}!
             </h1>
           </div>
@@ -154,9 +154,9 @@ function Tarefas() {
             { label: "Pendentes", value: pendentes, cls: "bg-accent text-accent-foreground" },
             { label: "Concluídas", value: all.length - pendentes, cls: "bg-hero text-hero-foreground" },
           ].map((s) => (
-            <div key={s.label} className={`rounded-xl border p-4 ${s.cls}`}>
-              <p className="font-display text-3xl">{s.value}</p>
-              <p className="text-sm opacity-80">{s.label}</p>
+            <div key={s.label} className={`min-w-0 rounded-xl border p-3 sm:p-4 ${s.cls}`}>
+              <p className="font-display text-2xl sm:text-3xl">{s.value}</p>
+              <p className="truncate text-xs opacity-80 sm:text-sm">{s.label}</p>
             </div>
           ))}
         </div>
@@ -187,7 +187,7 @@ function Tarefas() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="flex gap-1 rounded-lg border bg-card p-1">
+          <div className="grid grid-cols-3 gap-1 rounded-lg border bg-card p-1 sm:flex">
             {(["todas", "pendente", "concluida"] as const).map((s) => (
               <Button
                 key={s}
@@ -222,7 +222,7 @@ function Tarefas() {
                   aria-label={done ? "Marcar como pendente" : "Marcar como concluída"}
                 />
                 <div className="min-w-0 flex-1">
-                  <p className={`font-medium text-card-foreground ${done ? "line-through opacity-60" : ""}`}>
+                  <p className={`break-words font-medium text-card-foreground ${done ? "line-through opacity-60" : ""}`}>
                     {t.title}
                   </p>
                   {t.description && (
