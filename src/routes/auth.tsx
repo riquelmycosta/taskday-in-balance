@@ -33,7 +33,7 @@ function AuthPage() {
     });
   }, [navigate]);
 
-  async function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent): Promise<void> {
     e.preventDefault();
     setLoading(true);
     if (mode === "entrar") {
