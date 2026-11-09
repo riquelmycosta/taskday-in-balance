@@ -78,7 +78,7 @@ function Tarefas() {
   const refresh = () => qc.invalidateQueries({ queryKey: ["tasks", user.id] });
 
   const save = useMutation({
-    mutationFn: async (v: { id?: string; title: string; description: string }) => {
+    mutationFn: async (v: { id?: string | undefined; title: string; description: string }) => {
       const { error } = v.id
         ? await supabase.from("tasks").update({ title: v.title, description: v.description }).eq("id", v.id)
         : await supabase.from("tasks").insert({ title: v.title, description: v.description, user_id: user.id });
