@@ -183,7 +183,10 @@ function Tarefas() {
 
         <ul className="mt-6 space-y-3">
           {tasks.isLoading && <li className="text-muted-foreground">Carregando...</li>}
-          {!tasks.isLoading && list.length === 0 && (
+          {!tasks.isLoading && all.length > 0 && list.length === 0 && (
+            <li className="p-6 text-center text-muted-foreground">Nenhuma tarefa encontrada.</li>
+          )}
+          {!tasks.isLoading && all.length === 0 && (
             <li className="rounded-xl border border-dashed p-10 text-center text-muted-foreground">
               Você ainda não tem tarefas. Crie a primeira!
             </li>
