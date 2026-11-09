@@ -54,6 +54,8 @@ function Tarefas() {
   const [editing, setEditing] = useState<Task | null>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [toDelete, setToDelete] = useState<Task | null>(null);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"todas" | "pendente" | "concluida">("todas");
 
   const profile = useQuery({
     queryKey: ["profile", user.id],
@@ -122,8 +124,14 @@ function Tarefas() {
     navigate({ to: "/auth", replace: true });
   }
 
-  const list = tasks.data ?? [];
-  const pendentes = list.filter((t) => t.status !== "concluida").length;
+  const all = tasks.data ?? [];
+  const pendentes = all.filter((t) => t.status !== "concluida").length;
+  const termo = search.trim().toLowerCase();
+  const list = all.filter(
+    (t) =>
+      (statusFilter === "todas" || t.status === statusFilter) &&
+      (!termo || t.title.toLowerCase().includes(termo)),
+  );
 
   return (
     <main className="min-h-screen bg-background px-5 py-8 sm:py-12">
@@ -147,6 +155,31 @@ function Tarefas() {
         >
           <Plus /> Nova tarefa
         </Button>
+
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="relative flex-1">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              className="pl-9"
+              placeholder="Buscar pelo título..."
+              aria-label="Buscar pelo título"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-1 rounded-lg border bg-card p-1">
+            {(["todas", "pendente", "concluida"] as const).map((s) => (
+              <Button
+                key={s}
+                size="sm"
+                variant={statusFilter === s ? "default" : "ghost"}
+                onClick={() => setStatusFilter(s)}
+              >
+                {s === "todas" ? "Todas" : s === "pendente" ? "Pendentes" : "Concluídas"}
+              </Button>
+            ))}
+          </div>
+        </div>
 
         <ul className="mt-6 space-y-3">
           {tasks.isLoading && <li className="text-muted-foreground">Carregando...</li>}
